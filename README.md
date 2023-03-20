@@ -6,7 +6,6 @@
 <div align="center">
 
   <h1>Dashboard</h1>
-
   <p align="center"> 
    A Learning Management System, that enhances the Learning experience of k-12 students. 
     <br />
