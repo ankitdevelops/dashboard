@@ -1,0 +1,278 @@
+
+
+{% extends 'base.html' %} {% block title %}
+<title>Dashboard | Home</title>
+{% endblock title %} {% block content %}
+{% load crispy_forms_tags %} 
+
+<main id="main" class="main">
+  {% if request.user.is_teacher %}
+  <div class="pagetitle">
+    <h1>Subjects</h1>
+  </div><!-- End Page Title -->
+
+  <section class="section">
+    <div class="row">
+
+      {% for subject in subjects %}
+      <div class="col-lg-6">
+        <a href="{% url 'subject_details' subject.id %}" class="text-decoration-none text-dark">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{subject.subject_name}}   <span class="badge bg-primary text-white ms-3">{{subject.subject_code}}</span> <span class="badge bg-primary text-white ms-3">{{subject.class_id.class_name | capfirst }}</span></h5>  
+              <p>{{subject.description}}</p>
+            </div>
+          </div>
+        </a>
+
+      </div>
+      {% endfor %}
+      
+    </div>
+  </section>
+
+  {% if teacher.is_class_head %}
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Students</h5>
+
+              <!-- Default Table -->
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Admin No.</th>
+                    <th scope="col">Roll Number</th>
+                    <th scope="col">Guardian Name</th>
+                  </tr>
+                </thead>
+               
+                <tbody>
+                  {% for student in students %}
+                  <tr>
+                    <th scope="row"> {{ forloop.counter }}</th>
+                    <td>{{student.user.get_full_name}}</td>
+                    <td>{{student.admin_no}}</td>
+                    <td>{{student.class_roll_no}}</td>
+                    <td>{{student.guardian_name}}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              
+              </table>
+              <!-- End Default Table Example -->
+            </div>
+          </div>
+
+       
+
+        </div>
+
+      
+      </div>
+    </section>
+  {% endif %}
+  {% endif %}
+  {% if request.user.is_student %}
+  
+  <div class="col-xl-12">
+
+    <div class="card">
+      <div class="card-body pt-3">
+        <!-- Bordered Tabs -->
+        
+        <div class="tab-content pt-2">
+
+          <div class="tab-pane fade show active profile-overview" id="profile-overview">
+            
+
+            <h5 class="card-title">Personal Details</h5>
+
+            <div class="row">
+              <div class="col-lg-3 col-md-4 label ">Full Name</div>
+              <div class="col-lg-9 col-md-8">{{student.user.get_full_name | capfirst}}</div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-3 col-md-4 label">Class</div>
+              <div class="col-lg-9 col-md-8">{{std.class_name | capfirst}}</div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-3 col-md-4 label">DOB</div>
+              <div class="col-lg-9 col-md-8">{{student.user.dob | timesince}}</div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-3 col-md-4 label">City</div>
+              <div class="col-lg-9 col-md-8">{{student.user.city | capfirst}}</div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-3 col-md-4 label">Address</div>
+              <div class="col-lg-9 col-md-8">{{student.user.address}}</div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-3 col-md-4 label">Phone</div>
+              <div class="col-lg-9 col-md-8">{{student.guardian_phone_number}}</div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-3 col-md-4 label">Email</div>
+              <div class="col-lg-9 col-md-8">{{student.user.email}}</div>
+            </div>
+
+          </div>
+
+          
+
+        </div><!-- End Bordered Tabs -->
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row gy-4">
+
+    <div class="col-xl-12">
+      <div class="pagetitle">
+        <h1>Your Subjects</h1>
+      </div>
+      <div class="row">
+        {% for subject in subjects %}
+        
+          <div class="col-lg-3">
+            <a href="{% url 'subject_details' subject.id %}" class="text-decoration-none text-dark">
+            <div class="info-box card p-3">
+              <h3>{{subject.subject_name}}</h3>
+              <p>Tought By: {{subject.faculty.user.get_full_name}}</p>
+            </div>
+          </a>
+          </div>
+       
+        {% endfor %}
+      </div>
+
+    </div>
+
+   
+
+  </div>
+  {% endif %}
+
+  {% if request.user.is_superuser %}
+  <div class="row gy-4">
+
+    <div class="col-xl-12">
+      <div class="row">
+          <div class="col-lg-3">
+            <div class="info-box card p-3">
+              <h3>{{total_student}}</h3>
+              <p>Students</p>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div class="info-box card p-3">
+              <h3>{{total_teacher}}</h3>
+              <p>Students</p>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+      {% comment %} modal {% endcomment %}
+      <div class="pagetitle">
+        <h1>Teachers</h1>
+      </div>
+        <div class="card">
+          <div class="card-body">
+            <!-- Table with stripped rows -->
+            <table class="table datatable">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Qualification</th>
+                  <th scope="col">Experience</th>
+                </tr>
+              </thead>
+              <tbody>
+                  {% for teacher in teachers %}
+                <tr>
+                  <th scope="row">{{ forloop.counter }}</th>
+                  <td>{{teacher.user.get_full_name | capfirst}}</td>
+                  <td>{{teacher.qualification}}</td>
+                  <td>{{teacher.experience}}</td>
+                </tr>
+                {% endfor %}
+               
+              </tbody>
+            </table>
+            <!-- End Table with stripped rows -->
+
+          </div>
+        </div>
+
+      </div>
+      {% comment %} modal end {% endcomment %}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+      {% comment %} modal {% endcomment %}
+      <div class="pagetitle">
+        <h1>Students</h1>
+      </div>
+        <div class="card">
+          <div class="card-body">
+            <!-- Table with stripped rows -->
+            <table class="table datatable">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Class</th>
+                  <th scope="col">Guardian Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                  {% for student in students %}
+                <tr>
+                  <th scope="row">{{ forloop.counter }}</th>
+                  <td>{{student.user.get_full_name | capfirst}}</td>
+                  <td>{{student.std.class_name | capfirst}}</td>
+                  <td>{{student.guardian_name}}</td>
+                </tr>
+                {% endfor %}
+               
+              </tbody>
+            </table>
+            <!-- End Table with stripped rows -->
+
+          </div>
+        </div>
+
+      </div>
+      {% comment %} modal end {% endcomment %}
+    </div>
+  </section>
+  {% endif %}
+
+</main>
+
+
+
+{% endblock content %}

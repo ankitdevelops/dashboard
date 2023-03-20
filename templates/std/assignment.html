@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %} 
+{% block content %}
+<main id="main" class="main">
+
+    
+
+    <section class="section">
+        <div class="row">
+        
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">{{chapter.title | capfirst}} Assignments</h5>
+    
+                  <!-- Default Accordion -->
+                  <div class="accordion" id="accordionExample">
+                    {% for assignment in assignments %}
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{assignment.id}}" aria-expanded="true" aria-controls="collapseOne">
+                          Assignment  {{forloop.counter}} | {% if assignment.submitted_by.user == request.user %}<span class="badge text-bg-secondary ms-2">Submited</span>{% else %}<span class="badge text-bg-warning ms-2">Incomplete</span>{% endif %}
+                        </button>
+                      </h2>
+                      <div id="collapse-{{assignment.id}}" class="accordion-collapse collapse " aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                          {{assignment.content | safe}}
+
+                          <a href="{% url 'submit_assignment' chapter.id assignment.id%}">Submit Now</a>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div><!-- End Default Accordion Example -->
+    
+                </div>
+              </div>
+    
+
+        </div>
+        {% comment %} modal end {% endcomment %}
+      </div>
+    </section>
+
+  </main>
+
+{% endblock content %}

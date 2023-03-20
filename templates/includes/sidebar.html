@@ -1,0 +1,38 @@
+<aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+      <li class="nav-item">
+        <a class="nav-link " href="{% url 'home' %}">
+          <i class="bi bi-grid"></i>
+          <span>Dashboard</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+      {% if request.user.is_superuser %}
+      <li class="nav-item">
+        <a class="nav-link " href="{% url 'teacher_details' %}">
+          <i class="bi bi-grid"></i>
+          <span>Teacher</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-menu-button-wide"></i><span>Classes</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="{% url 'add-std' %}">
+              <i class="bi bi-circle"></i><span>Add New Class</span>
+            </a>
+          </li>
+          {% for link in links %}
+          <li>
+            <a href="{{ link.get_url }}">
+              <i class="bi bi-circle"></i><span>{{link.class_name | capfirst }}</span>
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </li><!-- End Components Nav -->
+      {% endif %}
+    </ul>
+
+  </aside>

@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %} 
+{% block content %}
+<main id="main" class="main">
+
+    
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body p-3">
+              <form class="row g-3"  action="{% url 'add_student' %}" enctype="multipart/form-data" method="POST">
+                {% csrf_token %}
+                <div class="col-md-6">
+                  {{u_form.first_name | as_crispy_field}}
+                </div>
+                <div class="col-md-6">
+                  {{u_form.last_name | as_crispy_field}}
+                
+                </div>
+                <div class="col-md-12">
+                  {{u_form.email | as_crispy_field}}
+                </div>
+
+                <div class="col-md-6">
+                  {{u_form.avatar | as_crispy_field}}
+                
+                </div>
+                <div class="col-md-6">
+                  {{u_form.dob | as_crispy_field}}
+                
+                </div>
+                <div class="col-md-6">
+                  {{u_form.gender | as_crispy_field}}
+                
+                </div>
+                <div class="col-md-6">
+                  {{u_form.city | as_crispy_field}}
+                
+                </div>
+                <div class="col-md-6">
+                  {{u_form.pin_code | as_crispy_field}}
+                
+                </div>
+                <div class="col-md-12">
+                  {{u_form.address | as_crispy_field}}
+                
+                </div>
+                <div class="col-md-6">
+                  {{s_form.guardian_email | as_crispy_field}}
+                </div>
+                <div class="col-md-6">
+                  {{s_form.guardian_phone_number | as_crispy_field}}
+                </div>
+                <div class="col-md-6">
+                  {{s_form.admin_no | as_crispy_field}}
+                </div>
+                <div class="col-md-6">
+                  {{s_form.guardian_phone_number | as_crispy_field}}
+                </div>
+                <div class="col-md-6">
+                  {{s_form.guardian_name | as_crispy_field}}
+                </div>
+                <div class="col-md-6">
+                  {{s_form.class_roll_no | as_crispy_field}}
+                </div>
+                <div class="col-md-6">
+                  {{s_form.std | as_crispy_field}}
+                </div>
+                <div class="">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
+
+            </div>
+          </div>
+
+        </div>
+        {% comment %} modal end {% endcomment %}
+      </div>
+    </section>
+
+  </main>
+
+{% endblock content %}

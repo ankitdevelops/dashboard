@@ -1,0 +1,41 @@
+{% extends 'base.html' %} {% block title %}
+<title>Dashboard | Home</title>
+{% endblock title %} {% block content %}
+{% load crispy_forms_tags %} 
+<script src="ckeditor/ckeditor.js"></script>  
+<main>
+    <div class="container">
+      <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
+        <div class="container">
+          <div class="row justify-content-center ">
+            <div class="col-lg-12 col-md-12 d-flex flex-column align-items-center justify-content-center mx-auto">
+
+              <div class="card mb-3">
+
+                <div class="card-body">
+
+                  <div class="pt-4 pb-2">
+                    <h5 class="card-title text-center pb-0 fs-4">Create New Assignment</h5>
+                  </div>
+
+                  <form class="row g-3" action="{% url 'add_new_assignment' subject.id chapter.id %}" enctype="multipart/form-data" method="POST">
+                    {% csrf_token %}
+                      {{ form.media }}
+                    {{ form | crispy }}
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-primary" type="submit">Add Now</button>
+                      </div>
+                  </form>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+ 
+
+{% endblock content %}
