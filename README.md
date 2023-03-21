@@ -106,14 +106,17 @@ python manage.py runserver
 ### Login Credentials
 
 **Admin**
+
 username:ankit
 password:ankit
 
 **Teacher**
+
 username: Vipin -1998-05-25
 password: Vipin -1998-05-25
 
 **Student**
+
 username: Rylee-2024-02-20
 password: Rylee-2024-02-20
 
